@@ -1,4 +1,5 @@
 const Tutorial = require("../models/tutorial.model.js");
+const sql = require("../models/db.js");
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
@@ -25,20 +26,28 @@ exports.create = (req, res) => {
       });
     else res.send(data);
   });
-};
+}; 
 
 // Retrieve all Tutorials from the database (with condition).
-exports.findAll = (req, res) => {
-  const title = req.query.title;
-
-  Tutorial.getAll(title, (err, data) => {
-    if (err)
+exports.findAll = (req, resr) => {
+  let query = "SELECT `id`, `title`, `description` FROM `tutorials` WHERE id = '2' ";
+  let data  = [];
+  sql.query(query, (err,res) => {
+    if (err) {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving tutorials."
+          err.message || "Some error occurred while creating the Tutorial."
       });
-    else res.send(data);
+      return;
+    }
+    data = res;
   });
+
+  setTimeout(() => {
+    resr.status(200).send({
+      data 
+    });
+  }, 2000);
 };
 
 // Find a single Tutorial by Id
@@ -127,4 +136,17 @@ exports.deleteAll = (req, res) => {
       });
     else res.send({ message: `All Tutorials were deleted successfully!` });
   });
+};
+
+
+
+exports.new = (req, resp) => {
+  const data = req.body;
+console.log(data);
+  resp.send(data);
+
+  // con.query('Insert into test SET ? ', data, (err, result,feilds) => {
+  //   if (err) { resp.send("error in api") }
+  //   else { resp.send(result) }
+  // })
 };

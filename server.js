@@ -18,7 +18,18 @@ app.use(express.urlencoded({ extended: true })); /* bodyParser.urlencoded() is d
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application." });
+  res.json({ message: "Welcome Nikhil." });
+});
+
+app.post("/", (req, resp) => {
+  // const data = {name:"nikhilk"};
+
+  const data = req.body;
+  resp.send(data)
+  // con.query('Insert into test SET ? ', data, (err, result,feilds) => {
+  //   if (err) { resp.send("error in api") }
+  //   else { resp.send(result) }
+  // })
 });
 
 require("./app/routes/tutorial.routes.js")(app);
